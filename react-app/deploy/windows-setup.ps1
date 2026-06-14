@@ -85,15 +85,25 @@ LOYVERSE_STORE_ID=
 # 4) build หน้าเว็บ (client -> dist)
 Info 'build หน้าเว็บ (client)'
 Push-Location $ClientDir
-npm install
-npm run build
+cmd /c "npm install"
+if ($LASTEXITCODE -ne 0) { Pop-Location; throw 'npm install (client) ล้มเหลว' }
+cmd /c "npm run build"
+if ($LASTEXITCODE -ne 0) { Pop-Location; throw 'npm run build (client) ล้มเหลว' }
 Pop-Location
 Ok 'build เสร็จ -> client\dist'
 
 # 5) ติดตั้ง dependency ฝั่ง server (production)
 Info 'ติดตั้ง dependency ฝั่ง server'
 Push-Location $ServerDir
-npm install --omit=dev
+cmd /c "npm install --omit=dev"
+if ($LASTEXITCODE -ne 0) {
+  Pop-Location
+  throw @'
+npm install (server) ล้มเหลว — มักเกิดจาก better-sqlite3 compile ไม่ได้บน Windows
+แก้: ติดตั้ง Python 3 (จาก python.org ติ๊ก Add to PATH) + Visual Studio Build Tools
+     (workload "Desktop development with C++") แล้วรันสคริปต์นี้ใหม่
+'@
+}
 Pop-Location
 Ok 'server dependencies พร้อม'
 
