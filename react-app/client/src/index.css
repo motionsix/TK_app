@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design tokens ─────────────────────────────────────────────
+   Semantic colors as space-separated RGB channels so Tailwind's
+   `rgb(var(--x) / <alpha-value>)` opacity modifiers keep working. */
+@layer base {
+  :root {
+    --canvas: 247 249 252;
+    --surface: 255 255 255;
+    --surface-2: 244 247 251;
+    --ink: 15 23 42;
+    --body: 51 65 85;
+    --muted: 100 116 139;
+    --line: 226 232 240;
+    --accent: 0 86 179;
+
+    color-scheme: light;
+  }
+
+  .dark {
+    --canvas: 9 14 26;
+    --surface: 19 27 43;
+    --surface-2: 28 38 58;
+    --ink: 241 245 249;
+    --body: 203 213 225;
+    --muted: 148 163 184;
+    --line: 39 51 74;
+    --accent: 96 165 250;
+
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-canvas font-sans text-body antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply text-ink;
+    text-wrap: balance;
+  }
+
+  /* Prevent flash: theme class is applied by an inline script in index.html. */
+  html {
+    transition: background-color 0.3s ease;
+  }
+}
+
+@layer components {
+  /* Primary action: solid Cooperative Blue, one defined shadow (no ghost-card). */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-brand-blue px-5 py-3 font-bold text-white shadow-glow transition duration-200 ease-out-quint hover:-translate-y-0.5 hover:bg-brand-dark focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-blue/30 active:translate-y-0 disabled:translate-y-0 disabled:opacity-50;
+  }
+  /* Secondary action: quiet, bordered, for non-primary tasks. */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-line bg-surface px-5 py-3 font-semibold text-body transition duration-200 ease-out-quint hover:border-muted/50 hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-muted/20 active:scale-[0.99] disabled:opacity-50;
+  }
+  /* Cards are flat at rest (border only); elevation is a response to state. */
+  .card {
+    @apply rounded-2xl border border-line bg-surface;
+  }
+  .input {
+    @apply w-full rounded-xl border border-line bg-surface-2 px-4 py-3 text-ink outline-none transition placeholder:text-muted/70 focus:border-brand-blue focus:bg-surface focus:ring-4 focus:ring-brand-blue/15;
+  }
+  /* Native file input restyled to match the design system. */
+  .input-file {
+    @apply w-full cursor-pointer rounded-xl border border-line bg-surface-2 text-sm text-muted outline-none transition file:mr-4 file:cursor-pointer file:border-0 file:bg-brand-blue file:px-5 file:py-3 file:font-bold file:text-white hover:file:bg-brand-dark focus:border-brand-blue focus:ring-4 focus:ring-brand-blue/15;
+  }
+  /* Filter / status pill with clear selected state. */
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-4 py-2 text-sm font-semibold text-muted transition hover:border-muted/50 hover:text-body;
+  }
+  .chip-active {
+    @apply border-brand-blue bg-brand-blue text-white hover:border-brand-dark hover:bg-brand-dark hover:text-white;
+  }
+  /* Skeleton shimmer block for loading states. */
+  .skeleton {
+    @apply relative overflow-hidden rounded-lg bg-surface-2;
+  }
+  .skeleton::after {
+    content: '';
+    @apply absolute inset-0 -translate-x-full;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgb(var(--ink) / 0.06),
+      transparent
+    );
+    animation: shimmer 1.6s infinite;
+  }
+}
+
+/* Reduced motion: honor the user's system setting for every animation/transition. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::selection {
+  background: #ffc107;
+  color: #003d80;
+}
+
+/* Subtle, brand-tinted scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--muted) / 0.45);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--muted) / 0.7);
+}
+
+.swal2-popup {
+  font-family: 'Prompt', sans-serif !important;
+  border-radius: 20px !important;
+}
