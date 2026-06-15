@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useAuth } from '../auth/AuthContext';
@@ -45,9 +45,11 @@ export default function AdminLayout() {
     <div className="flex h-full flex-col bg-slate-900 text-white">
       <div className="flex items-center justify-between px-6 py-6">
         <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-yellow text-xl font-black text-slate-900">
-            TK
-          </div>
+          <img
+            src="/logo.png"
+            alt="โลโก้โรงเรียนตราษตระการคุณ"
+            className="h-12 w-12 object-contain"
+          />
           <div className="leading-tight">
             <div className="font-extrabold text-brand-yellow">TK ADMIN</div>
             <div className="text-[11px] tracking-wide text-slate-400">Back Office</div>
@@ -121,14 +123,20 @@ export default function AdminLayout() {
             <i className="bi bi-list text-xl" />
           </button>
           <div className="flex items-center gap-2 font-extrabold text-ink">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-yellow text-sm font-black text-slate-900">
-              TK
-            </span>
+            <img
+              src="/logo.png"
+              alt="โลโก้โรงเรียนตราษตระการคุณ"
+              className="h-8 w-8 object-contain"
+            />
             ADMIN
           </div>
         </div>
 
-        <Outlet />
+        <Suspense
+          fallback={<div className="p-8 text-muted">กำลังโหลด...</div>}
+        >
+          <Outlet />
+        </Suspense>
       </div>
     </div>
   );

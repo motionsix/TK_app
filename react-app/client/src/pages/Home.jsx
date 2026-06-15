@@ -20,7 +20,7 @@ function SkeletonCard() {
   );
 }
 
-function ProductCard({ product, onAdd }) {
+function ProductCard({ product, onAdd, eager = false }) {
   const [qty, setQty] = useState(1);
   const img = imageUrl(product.image);
   const lowStock = product.stock > 0 && product.stock <= 10;
@@ -32,6 +32,9 @@ function ProductCard({ product, onAdd }) {
           <img
             src={img}
             alt={product.name}
+            loading={eager ? 'eager' : 'lazy'}
+            decoding="async"
+            fetchPriority={eager ? 'high' : 'low'}
             className="max-h-full max-w-full object-contain transition duration-500 ease-out-quint group-hover:scale-105"
             onError={(e) => {
               e.currentTarget.style.display = 'none';
@@ -250,8 +253,8 @@ export default function Home() {
             )}
           </p>
           <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-5 sm:gap-6">
-            {products.map((p) => (
-              <ProductCard key={p.id} product={p} onAdd={handleAdd} />
+            {products.map((p, i) => (
+              <ProductCard key={p.id} product={p} onAdd={handleAdd} eager={i < 4} />
             ))}
           </div>
         </>

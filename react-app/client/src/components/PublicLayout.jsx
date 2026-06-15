@@ -47,9 +47,11 @@ export default function PublicLayout() {
       <header className="sticky top-0 z-40 border-b border-white/10 bg-gradient-to-r from-brand-blue to-brand-dark text-white shadow-soft">
         <div className="mx-auto flex h-[72px] max-w-[1400px] items-center justify-between gap-3 px-4 sm:px-5">
           <Link to="/" className="flex items-center gap-3 transition hover:opacity-90">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-yellow text-xl font-black text-brand-dark shadow-sm">
-              TK
-            </div>
+            <img
+              src="/logo.png"
+              alt="โลโก้โรงเรียนตราษตระการคุณ"
+              className="h-12 w-12 object-contain"
+            />
             <div className="leading-tight">
               <span className="block text-lg font-extrabold tracking-tight text-brand-yellow">
                 TK EASY STORE
@@ -137,9 +139,11 @@ export default function PublicLayout() {
       <footer className="mt-16 border-t border-line bg-surface">
         <div className="mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-4 px-5 py-8 text-sm text-muted sm:flex-row">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-blue text-sm font-black text-white">
-              TK
-            </div>
+            <img
+              src="/logo.png"
+              alt="โลโก้โรงเรียนตราษตระการคุณ"
+              className="h-10 w-10 object-contain"
+            />
             <div>
               <div className="font-bold text-ink">TK EASY STORE</div>
               <div className="text-xs">สหกรณ์ร้านค้าโรงเรียนตราษตระการคุณ</div>

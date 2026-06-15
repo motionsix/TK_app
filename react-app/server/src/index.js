@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import compression from 'compression';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
@@ -21,6 +22,9 @@ const PORT = Number(process.env.PORT) || 3001;
 // real client IP — needed for rate limiting to key on the actual visitor.
 app.set('trust proxy', 1);
 
+// Gzip/deflate responses (HTML, JS, CSS, JSON). Big win for the bundle.
+app.use(compression());
+
 app.use(
   cors({
     origin: process.env.CLIENT_ORIGIN || true,
@@ -29,8 +33,14 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Uploaded product images
-app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+// Uploaded product images — cache for a week (images rarely change after upload).
+app.use(
+  '/uploads',
+  express.static(path.join(__dirname, '..', 'uploads'), {
+    maxAge: '7d',
+    immutable: false,
+  })
+);
 
 app.get('/api/health', async (_req, res) => {
   try {
@@ -51,10 +61,24 @@ app.use('/api/admin/loyverse', loyverseRoutes);
 // Run `npm run build` in ../client first to generate this folder.
 const clientDist = path.join(__dirname, '..', '..', 'client', 'dist');
 if (fs.existsSync(clientDist)) {
-  app.use(express.static(clientDist));
+  // Hashed assets (e.g. index-ab12cd.js) never change content -> cache 1 year.
+  // index.html is the only entry that changes per deploy, so it's served below
+  // with no-cache so visitors always pick up the latest asset hashes.
+  app.use(
+    express.static(clientDist, {
+      maxAge: '1y',
+      immutable: true,
+      setHeaders: (res, filePath) => {
+        if (filePath.endsWith('index.html')) {
+          res.setHeader('Cache-Control', 'no-cache');
+        }
+      },
+    })
+  );
   // SPA fallback: anything that isn't /api or /uploads returns index.html
   // so React Router can handle the route on the client.
   app.get(/^(?!\/api|\/uploads).*/, (_req, res) => {
+    res.setHeader('Cache-Control', 'no-cache');
     res.sendFile(path.join(clientDist, 'index.html'));
   });
 }
