@@ -11,6 +11,7 @@ import authRoutes from './routes/auth.js';
 import shopRoutes from './routes/shop.js';
 import adminRoutes from './routes/admin.js';
 import loyverseRoutes from './routes/loyverse.js';
+import { startLoyverseAutoSync } from './scheduler.js';
 
 dotenv.config();
 
@@ -91,4 +92,6 @@ app.use((err, _req, res, _next) => {
 
 app.listen(PORT, () => {
   console.log(`TK EASY STORE API running on http://localhost:${PORT}`);
+  // Kick off the scheduled Loyverse product sync (every LOYVERSE_SYNC_MINUTES).
+  startLoyverseAutoSync();
 });
