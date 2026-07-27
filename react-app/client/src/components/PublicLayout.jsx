@@ -4,6 +4,7 @@ import { useAuth } from '../auth/AuthContext';
 import { useCart } from '../cart/CartContext';
 import { baht } from '../lib/format';
 import ThemeToggle from './ThemeToggle';
+import ChatWidget from './ChatWidget';
 
 function NavLink({ to, icon, label, className = '' }) {
   return (
@@ -135,6 +136,8 @@ export default function PublicLayout() {
       <main className="flex-1">
         <Outlet />
       </main>
+
+      <ChatWidget />
 
       <footer className="mt-16 border-t border-line bg-surface">
         <div className="mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-4 px-5 py-8 text-sm text-muted sm:flex-row">

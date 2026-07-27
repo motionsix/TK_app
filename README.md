@@ -1,16 +1,24 @@
 # TK EASY STORE
 
 ระบบร้านค้าสหกรณ์โรงเรียนออนไลน์ (โรงเรียนตราษตระการคุณ) — เลือกซื้อสินค้า ดูสต็อกเรียลไทม์
-ตรวจสอบหุ้น/เงินปันผล และมีหลังบ้าน (admin) สำหรับจัดการสินค้า คำสั่งซื้อ และเชื่อมต่อ Loyverse POS
+ตรวจสอบหุ้น/เงินปันผล และมีหลังบ้าน (admin) สำหรับจัดการสินค้า คำสั่งซื้อ พยากรณ์สต็อก Export รายงาน และเชื่อมต่อ Loyverse POS
 
 ## เทคโนโลยีที่ใช้
 
 | ส่วน | เทคโนโลยี |
 | --- | --- |
-| Front-end | React 19 + Vite + Tailwind CSS + React Router + Axios |
+| Front-end | React 19 + Vite + Tailwind CSS + React Router + Axios + XLSX + jsPDF |
 | Back-end | Node.js + Express + better-sqlite3 (SQLite) |
 | Auth/ความปลอดภัย | JWT, bcrypt, express-rate-limit |
 | POS | Loyverse API (อ่านข้อมูลทางเดียว + ซิงค์อัตโนมัติ) |
+| Chatbot (optional) | OpenRouter / Gemini API |
+
+## ฟังก์ชันเด่น
+
+- ร้านค้าออนไลน์ + ตะกร้า + คำสั่งซื้อ + หุ้น/ปันผล
+- Admin: สินค้า, ออเดอร์, สมาชิก, Loyverse sync
+- **พยากรณ์สต็อก / แจ้งเตือนสต็อกต่ำ** + Export Excel/PDF
+- **แชทผู้ช่วย AI** (ถ้าตั้ง API key — ไม่ตั้งก็ใช้ FAQ สำรองได้)
 
 ---
 
@@ -117,6 +125,8 @@ node src/reset-password.js <username> <password>
 | `LOYVERSE_TOKEN` | - | Access Token ของ Loyverse (เว้นว่าง = ปิดการเชื่อมต่อ) |
 | `LOYVERSE_STORE_ID` | - | จำกัดสต็อกเฉพาะสาขา (เว้นว่าง = รวมทุกสาขา) |
 | `LOYVERSE_SYNC_MINUTES` | - | รอบซิงค์สินค้าอัตโนมัติ (นาที, ค่าเริ่มต้น 30, ใส่ `0` = ปิด) |
+| `OPENROUTER_API_KEY` / `GEMINI_API_KEY` | - | API key สำหรับแชท AI (เว้นว่าง = ใช้ FAQ สำรอง) |
+| `OPENROUTER_MODEL` | - | โมเดล OpenRouter (มีค่าเริ่มต้น) |
 
 > ⚠️ ห้าม commit ไฟล์ `.env` จริง — ถูกใส่ใน `.gitignore` แล้ว ใช้ `.env.example` เป็นแม่แบบ
 

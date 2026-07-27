@@ -11,6 +11,8 @@ import authRoutes from './routes/auth.js';
 import shopRoutes from './routes/shop.js';
 import adminRoutes from './routes/admin.js';
 import loyverseRoutes from './routes/loyverse.js';
+import chatRoutes from './routes/chat.js';
+import analyticsRoutes from './routes/analytics.js';
 import { startLoyverseAutoSync } from './scheduler.js';
 
 dotenv.config();
@@ -56,6 +58,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api', shopRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/admin/loyverse', loyverseRoutes);
+app.use('/api/chat', chatRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // Production: serve the built React client from the same origin so the client's
 // relative `/api` and `/uploads` calls just work (no CORS, no separate host).

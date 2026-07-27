@@ -22,6 +22,7 @@ const AdminOrderView = lazy(() => import('./pages/admin/OrderView'));
 const AdminUsers = lazy(() => import('./pages/admin/Users'));
 const AdminDividend = lazy(() => import('./pages/admin/Dividend'));
 const AdminLoyverse = lazy(() => import('./pages/admin/Loyverse'));
+const InventoryForecast = lazy(() => import('./pages/admin/InventoryForecast'));
 
 function Loading() {
   return (
@@ -103,6 +104,7 @@ export default function App() {
         <Route path="/admin/users" element={<AdminUsers />} />
         <Route path="/admin/dividend" element={<AdminDividend />} />
         <Route path="/admin/loyverse" element={<AdminLoyverse />} />
+        <Route path="/admin/forecast" element={<InventoryForecast />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

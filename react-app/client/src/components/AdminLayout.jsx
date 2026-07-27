@@ -11,6 +11,7 @@ const menu = [
   { to: '/admin/dividend', icon: 'bi-graph-up-arrow', label: 'ระบบปันผลหุ้น' },
   { to: '/admin/users', icon: 'bi-person-gear', label: 'จัดการผู้ใช้' },
   { to: '/admin/loyverse', icon: 'bi-arrow-repeat', label: 'เชื่อมต่อ Loyverse' },
+  { to: '/admin/forecast', icon: 'bi-bar-chart-line', label: 'พยากรณ์สินค้า' },
 ];
 
 export default function AdminLayout() {
