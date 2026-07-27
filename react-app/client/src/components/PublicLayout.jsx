@@ -4,12 +4,13 @@ import { useAuth } from '../auth/AuthContext';
 import { useCart } from '../cart/CartContext';
 import { baht } from '../lib/format';
 import ThemeToggle from './ThemeToggle';
+import ChatWidget from './ChatWidget';
 
-function NavLink({ to, icon, label }) {
+function NavLink({ to, icon, label, className = '' }) {
   return (
     <Link
       to={to}
-      className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-white/85 transition hover:bg-white/10 hover:text-brand-yellow"
+      className={`flex items-center gap-2 rounded-xl px-2.5 py-2 text-sm font-medium text-white/85 transition hover:bg-white/10 hover:text-brand-yellow sm:px-3 ${className}`}
     >
       <i className={`bi ${icon} text-base`} />
       <span className="hidden lg:inline">{label}</span>
@@ -45,13 +46,15 @@ export default function PublicLayout() {
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-40 border-b border-white/10 bg-gradient-to-r from-brand-blue to-brand-dark text-white shadow-soft">
-        <div className="mx-auto flex h-[72px] max-w-[1400px] items-center justify-between gap-3 px-4 sm:px-5">
-          <Link to="/" className="flex items-center gap-3 transition hover:opacity-90">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-yellow text-xl font-black text-brand-dark shadow-sm">
-              TK
-            </div>
-            <div className="leading-tight">
-              <span className="block text-lg font-extrabold tracking-tight text-brand-yellow">
+        <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-2 px-3 sm:h-[72px] sm:gap-3 sm:px-5">
+          <Link to="/" className="flex min-w-0 items-center gap-2 transition hover:opacity-90 sm:gap-3">
+            <img
+              src="/logo.png"
+              alt="โลโก้โรงเรียนตราษตระการคุณ"
+              className="h-9 w-9 shrink-0 object-contain sm:h-12 sm:w-12"
+            />
+            <div className="min-w-0 leading-tight">
+              <span className="block truncate text-base font-extrabold tracking-tight text-brand-yellow sm:text-lg">
                 TK EASY STORE
               </span>
               <span className="hidden text-[11px] tracking-wide text-white/70 sm:block">
@@ -60,13 +63,13 @@ export default function PublicLayout() {
             </div>
           </Link>
 
-          <div className="flex items-center gap-2 sm:gap-3">
-            <nav className="flex items-center gap-1">
-              <NavLink to="/" icon="bi-house-door" label="หน้าหลัก" />
+          <div className="flex shrink-0 items-center gap-1 sm:gap-3">
+            <nav className="flex items-center gap-0.5 sm:gap-1">
+              <NavLink to="/" icon="bi-house-door" label="หน้าหลัก" className="hidden sm:flex" />
               <NavLink to="/my-orders" icon="bi-receipt" label="ประวัติซื้อ" />
               <Link
                 to="/cart"
-                className="relative flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-white/85 transition hover:bg-white/10 hover:text-brand-yellow"
+                className="relative flex items-center gap-2 rounded-xl px-2.5 py-2 text-sm font-medium text-white/85 transition hover:bg-white/10 hover:text-brand-yellow sm:px-3"
                 aria-label="ตะกร้าสินค้า"
               >
                 <i className="bi bi-cart3 text-base" />
@@ -91,11 +94,11 @@ export default function PublicLayout() {
             <ThemeToggle variant="dark" />
 
             {user ? (
-              <div className="flex items-center gap-2 rounded-full border border-white/10 bg-black/20 py-1 pl-3 pr-1">
+              <div className="flex items-center gap-1.5 rounded-full border border-white/10 bg-black/20 py-1 pl-1.5 pr-1 sm:gap-2 sm:pl-3">
                 <span className="hidden text-sm font-medium md:inline">{user.username}</span>
                 <div className="flex gap-1">
                   <div
-                    className="flex items-center gap-1 rounded-full bg-brand-yellow px-3 py-1 text-xs font-bold text-brand-dark"
+                    className="flex items-center gap-1 rounded-full bg-brand-yellow px-2.5 py-1 text-xs font-bold text-brand-dark sm:px-3"
                     title="ยอดหุ้นสะสม"
                   >
                     <i className="bi bi-piggy-bank" /> {baht(shares, 0)}
@@ -109,7 +112,7 @@ export default function PublicLayout() {
                 </div>
                 <button
                   onClick={handleLogout}
-                  className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-red-500"
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-red-500"
                   title="ออกจากระบบ"
                   aria-label="ออกจากระบบ"
                 >
@@ -120,7 +123,7 @@ export default function PublicLayout() {
               location.pathname !== '/login' && (
                 <Link
                   to="/login"
-                  className="rounded-full bg-brand-yellow px-5 py-2 text-sm font-bold text-brand-dark transition hover:-translate-y-0.5 hover:shadow-lg"
+                  className="rounded-full bg-brand-yellow px-4 py-2 text-sm font-bold text-brand-dark transition hover:-translate-y-0.5 hover:shadow-lg sm:px-5"
                 >
                   เข้าสู่ระบบ
                 </Link>
@@ -134,12 +137,16 @@ export default function PublicLayout() {
         <Outlet />
       </main>
 
+      <ChatWidget />
+
       <footer className="mt-16 border-t border-line bg-surface">
         <div className="mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-4 px-5 py-8 text-sm text-muted sm:flex-row">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-blue text-sm font-black text-white">
-              TK
-            </div>
+            <img
+              src="/logo.png"
+              alt="โลโก้โรงเรียนตราษตระการคุณ"
+              className="h-10 w-10 object-contain"
+            />
             <div>
               <div className="font-bold text-ink">TK EASY STORE</div>
               <div className="text-xs">สหกรณ์ร้านค้าโรงเรียนตราษตระการคุณ</div>

@@ -20,7 +20,7 @@ function SkeletonCard() {
   );
 }
 
-function ProductCard({ product, onAdd }) {
+function ProductCard({ product, onAdd, eager = false }) {
   const [qty, setQty] = useState(1);
   const img = imageUrl(product.image);
   const lowStock = product.stock > 0 && product.stock <= 10;
@@ -32,6 +32,9 @@ function ProductCard({ product, onAdd }) {
           <img
             src={img}
             alt={product.name}
+            loading={eager ? 'eager' : 'lazy'}
+            decoding="async"
+            fetchPriority={eager ? 'high' : 'low'}
             className="max-h-full max-w-full object-contain transition duration-500 ease-out-quint group-hover:scale-105"
             onError={(e) => {
               e.currentTarget.style.display = 'none';
@@ -184,7 +187,7 @@ export default function Home() {
       </div>
 
       {/* Filter / search bar */}
-      <div className="sticky top-[72px] z-30 mb-6 rounded-2xl border border-line bg-surface/85 p-4 shadow-soft backdrop-blur">
+      <div className="sticky top-16 z-30 mb-6 rounded-2xl border border-line bg-surface/85 p-4 shadow-soft backdrop-blur sm:top-[72px]">
         <div className="flex flex-wrap items-center gap-3">
           <h2 className="px-1 text-lg font-extrabold tracking-tight text-ink">เลือกซื้อสินค้า</h2>
           <div className="relative flex-1 sm:ml-auto sm:max-w-xs">
@@ -250,8 +253,8 @@ export default function Home() {
             )}
           </p>
           <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-5 sm:gap-6">
-            {products.map((p) => (
-              <ProductCard key={p.id} product={p} onAdd={handleAdd} />
+            {products.map((p, i) => (
+              <ProductCard key={p.id} product={p} onAdd={handleAdd} eager={i < 4} />
             ))}
           </div>
         </>

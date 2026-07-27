@@ -33,9 +33,11 @@ export default function Login() {
     <div className="flex min-h-[calc(100vh-72px)] items-center justify-center px-4 py-12">
       <div className="card w-full max-w-md overflow-hidden shadow-card">
         <div className="bg-brand-gradient px-8 py-8 text-center text-white sm:px-10">
-          <span className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 text-2xl">
-            <i className="bi bi-person-lock" />
-          </span>
+          <img
+            src="/logo.png"
+            alt="โลโก้โรงเรียนตราษตระการคุณ"
+            className="mx-auto mb-3 h-20 w-20 object-contain drop-shadow"
+          />
           <h2 className="text-2xl font-extrabold text-white">เข้าสู่ระบบ</h2>
           <p className="text-sm text-white/80">TK EASY STORE · สหกรณ์โรงเรียน</p>
         </div>

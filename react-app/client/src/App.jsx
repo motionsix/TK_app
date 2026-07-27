@@ -1,8 +1,8 @@
+import { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './auth/AuthContext';
 
 import PublicLayout from './components/PublicLayout';
-import AdminLayout from './components/AdminLayout';
 
 import Home from './pages/Home';
 import Cart from './pages/Cart';
@@ -12,13 +12,17 @@ import MyOrders from './pages/MyOrders';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
-import Dashboard from './pages/admin/Dashboard';
-import AdminProducts from './pages/admin/Products';
-import AdminOrders from './pages/admin/Orders';
-import AdminOrderView from './pages/admin/OrderView';
-import AdminUsers from './pages/admin/Users';
-import AdminDividend from './pages/admin/Dividend';
-import AdminLoyverse from './pages/admin/Loyverse';
+// Admin area is only for staff — split it into its own chunk so the public
+// storefront bundle stays small and loads faster for shoppers.
+const AdminLayout = lazy(() => import('./components/AdminLayout'));
+const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
+const AdminProducts = lazy(() => import('./pages/admin/Products'));
+const AdminOrders = lazy(() => import('./pages/admin/Orders'));
+const AdminOrderView = lazy(() => import('./pages/admin/OrderView'));
+const AdminUsers = lazy(() => import('./pages/admin/Users'));
+const AdminDividend = lazy(() => import('./pages/admin/Dividend'));
+const AdminLoyverse = lazy(() => import('./pages/admin/Loyverse'));
+const InventoryForecast = lazy(() => import('./pages/admin/InventoryForecast'));
 
 function Loading() {
   return (
@@ -87,7 +91,9 @@ export default function App() {
       <Route
         element={
           <RequireAdmin>
-            <AdminLayout />
+            <Suspense fallback={<Loading />}>
+              <AdminLayout />
+            </Suspense>
           </RequireAdmin>
         }
       >
@@ -98,6 +104,7 @@ export default function App() {
         <Route path="/admin/users" element={<AdminUsers />} />
         <Route path="/admin/dividend" element={<AdminDividend />} />
         <Route path="/admin/loyverse" element={<AdminLoyverse />} />
+        <Route path="/admin/forecast" element={<InventoryForecast />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

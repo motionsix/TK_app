@@ -30,3 +30,13 @@ yarn-error.log*
 Thumbs.db
 .vscode/
 .idea/
+
+# Project documentation (keep local only, do not push)
+Doc/
+
+# AI tooling artifacts (Impeccable skill, critiques, design specs) - local only
+.agents/
+.impeccable/
+skills-lock.json
+DESIGN.md
+PRODUCT.md
